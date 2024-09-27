@@ -42,13 +42,13 @@ To run the app locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/abhishek-jaiswar/cheat-meal-app.git
+   git clone https://github.com/Abhishek-Jaiswar/cheat-meal.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd cheatmeal-app
+   cd cheat-meal
    ```
 
 3. Install the required dependencies:
@@ -73,7 +73,7 @@ To run the app locally, follow these steps:
    npm run dev
    ```
 
-6. Open a new terminal and run the frontend:
+6. Open a new terminal navigate to frontend and run it by:
 
    ```bash
    npm run dev
@@ -114,8 +114,8 @@ The app provides several API endpoints for interacting with customer and restaur
 
 ### Authentication
 
-- **POST** `/api/auth/signup` - Sign up as a customer or restaurant
-- **POST** `/api/auth/login` - Log in to your account
+- **POST** `/api/v1/auth/signup` - Sign up as a customer or restaurant
+- **POST** `/api/v1/auth/login` - Log in to your account
 
 ### Customer Endpoints
 
@@ -149,5 +149,4 @@ For any inquiries or support, please feel free to reach out:
 
 - **Email**: support@cheatmeal.com
 - **Website**: [Cheat Meal](https://cheatmeal.com)
-- **LinkedIn**: [Cheat Meal LinkedIn](https://linkedin.com/company/cheatmeal)
-```
+- **LinkedIn**: [Cheat Meal LinkedIn](https://www.linkedin.com/in/abhishek-jaiswar-86762030a/)
