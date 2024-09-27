@@ -2,7 +2,6 @@ import mongoose, { Document } from 'mongoose';
 
 export interface IUser {
     username: string;
-    cheatMealId: string;
     email: string;
     contact: number;
     password: string;
@@ -29,10 +28,6 @@ const userSchema = new mongoose.Schema<IUserDocument>({
     username: {
         type: String,
         required: true,
-    },
-    cheatMealId: {
-        type: String,
-        required: true
     },
     email: {
         type: String,
