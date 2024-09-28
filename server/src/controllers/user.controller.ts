@@ -5,6 +5,7 @@ import crypto from 'crypto'
 import cloudinary from "../services/cloudinary";
 import { generateVerificationCode } from "../services/generateVerificationCode";
 import { generateToken } from "../services/generateToken";
+import { sendPasswordResetEmail, sendResetSuccessEmail, sendVerificationEmail, sendWelcomeEmail } from "../services/Emails/email";
 
 export const signup = async (req: Request, res: Response) => {
     try {
@@ -31,10 +32,10 @@ export const signup = async (req: Request, res: Response) => {
             verificationTokenExpiresIn: Date.now() * 24 * 60 * 60 * 1000
         })
 
-        // generate token
+        // generate jwt token
         generateToken(res, user);
 
-        // await sendVerificationEmail(email, verificationToken)
+        sendVerificationEmail(email, varificationToken)
 
         const userWithOutPassword = await User.findOne({ email }).select("-password")
 
@@ -46,7 +47,7 @@ export const signup = async (req: Request, res: Response) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            message: "Internal server error",
+            message: "failed to signup",
             success: false
         })
     }
@@ -54,9 +55,9 @@ export const signup = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     try {
-        const { email, contact, password } = req.body;
+        const { email, password } = req.body;
 
-        if (!email || !contact || !password) {
+        if (!email || !password) {
             return res.status(401).json({
                 message: "All the fields are required.",
                 success: false
@@ -64,7 +65,7 @@ export const login = async (req: Request, res: Response) => {
         }
 
         const userExists = await User.findOne({
-            $or: [{ email: email }, { contact: contact }]
+            $or: [{ email: email }]
         })
         if (!userExists) {
             return res.status(404).json({
@@ -122,7 +123,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
         await user.save();
 
         // send welcome email
-        // await sendWelcomeEmail(user.email, user.username);
+        await sendWelcomeEmail(user.email, user.username);
 
         return res.status(200).json({
             message: "Email verified successfully",
@@ -173,7 +174,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
         await user.save();
 
         // send password reset email 
-        // await sendPasswordResetEmail(user.email, `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`)
+        sendPasswordResetEmail(user.email, `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`)
 
         return res.status(200).json({
             message: "Password reset link sent to your email",
@@ -212,7 +213,7 @@ export const resetPassword = async (req: Request, res: Response) => {
 
         // send successfull reset email
 
-        // await sendSuccessResetEmail(user.email)
+        await sendResetSuccessEmail(user.email)
 
         return res.status(200).json({
             message: "Password reseted successfully",
